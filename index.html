@@ -29,7 +29,10 @@
     .buttons {
       margin-top: 20px;
       position: relative;
-      height: 200px;
+      display: flex;           /* side by side */
+      justify-content: center; /* center horizontally */
+      gap: 20px;               /* space between buttons */
+      height: 200px;           /* room for runaway No later */
     }
 
     button {
@@ -50,9 +53,7 @@
     #noBtn {
       background-color: #adb5bd;
       color: white;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      /* Start as normal flex item; will switch to absolute for runaway */
     }
 
     /* 💓 Floating hearts */
@@ -79,7 +80,7 @@
 <body>
 
   <div id="main">
-    <h1>Will you be my Valentine? 💘</h1>
+    <h1>trace will you be my valentine? 🥺💙</h1>
     <img src="cute.gif" alt="Cute gif">
 
     <div class="buttons">
@@ -95,9 +96,9 @@
 
     function yesClicked() {
       document.getElementById("main").innerHTML = `
-        <h1>YAY!!! 💕🎉</h1>
+        <h1>YAY!!! yes please be my valentine 💕🎉</h1>
         <img src="firework.gif" alt="Firework gif">
-        <h2>every day with you is my favorite 💖</h2>
+        <h2>i love the fuck outta you 🤙💛</h2>
       `;
       startHearts();
     }
@@ -109,6 +110,7 @@
       const randomX = Math.random() * maxX;
       const randomY = Math.random() * maxY;
 
+      noBtn.style.position = "absolute";  // make it free to move
       noBtn.style.left = randomX + "px";
       noBtn.style.top = randomY + "px";
 
@@ -116,12 +118,13 @@
       yesBtn.style.fontSize = yesSize + "rem";
     }
 
+    // Start runaway No after 2.5 seconds
     setTimeout(() => {
       noBtn.addEventListener("mouseenter", moveNoButton);
       noBtn.addEventListener("touchstart", moveNoButton);
     }, 2500);
 
-    // 💓 Create floating hearts
+    // 💓 Floating hearts
     function startHearts() {
       setInterval(createHeart, 300);
     }
