@@ -40,18 +40,20 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease; /* smooth transitions */
       touch-action: manipulation;
     }
 
     #yesBtn {
       background-color: #ff4d6d;
       color: white;
+      transition: transform 0.3s ease, font-size 0.3s ease;
     }
 
     #noBtn {
       background-color: #adb5bd;
       color: white;
+      position: static;
     }
 
     #tryAgainMsg {
@@ -59,10 +61,100 @@
       color: #d6336c;
       margin-bottom: 10px;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.5s ease;
     }
 
-    /* 💓 Floating hearts */
+    /* Floating hearts */
     .heart {
       position: fixed;
-      bot
+      bottom: -20px;
+      font-size: 1.5rem;
+      animation: floatUp 4s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.8);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="main">
+    <h1>trace will you be my valentine? 🥺💘</h1>
+    <img src="cute.gif" alt="Cute gif">
+
+    <div id="tryAgainMsg"></div>
+
+    <div class="buttons">
+      <button id="yesBtn" onclick="yesClicked()">Yes 💖</button>
+      <button id="noBtn" onclick="noClicked()">No 😢</button>
+    </div>
+  </div>
+
+  <script>
+    let yesSize = 1.1;
+    const yesBtn = document.getElementById("yesBtn");
+    const tryAgainMsg = document.getElementById("tryAgainMsg");
+
+    function yesClicked() {
+      document.getElementById("main").innerHTML = `
+        <h1>YAY!!! 💕🎉</h1>
+        <img src="firework.gif" alt="Firework gif">
+        <h2>every day with you is my favorite 💖</h2>
+      `;
+      startHearts();
+    }
+
+    function noClicked() {
+      // Show "Try again" message
+      tryAgainMsg.textContent = "Try again! 😏";
+      tryAgainMsg.style.opacity = 1;
+
+      // Gradually increase Yes button size cumulatively
+      yesSize += 0.15;
+      yesBtn.style.fontSize = yesSize + "rem";
+      yesBtn.style.transform = "scale(1.1)";
+      setTimeout(() => {
+        yesBtn.style.transform = "scale(1)";
+      }, 300);
+
+      // Fade out message after 2 seconds
+      setTimeout(() => {
+        tryAgainMsg.style.opacity = 0;
+      }, 2000);
+    }
+
+    // Floating hearts (mix of yellow 💛 and blue 💙)
+    function startHearts() {
+      setInterval(createHeart, 300);
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+
+      // Randomly pick yellow or blue
+      const colors = ["💛", "💙"];
+      heart.innerText = colors[Math.floor(Math.random() * colors.length)];
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 16) + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }
+  </script>
+
+</body>
+</html>
